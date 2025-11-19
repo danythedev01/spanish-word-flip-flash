@@ -36,18 +36,19 @@ pipeline {
                         echo 'Mock test was successful!'
                     }
                 }
-            }
-        }
 
-        stage('integration tests') {
-            agent {
-                docker {
-                    image 'mcr.microsoft.com/playwright:v1.54.2-jammy'
-                    reuseNode true
+                stage('integration tests') {
+                    agent {
+                        docker {
+                            image 'mcr.microsoft.com/playwright:v1.54.2-jammy'
+                            reuseNode true
+                        }
+                    }
+                    steps {
+                        sh 'npx playwright test'
+                    }
                 }
-            }
-            steps {
-                sh 'npx playwright test'
+
             }
         }
 

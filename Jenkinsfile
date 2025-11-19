@@ -15,6 +15,8 @@ pipeline {
             steps {
                 sh 'npm ci'
                 sh 'npm run build'
+                echo 'Running tests on same stage'
+                sh 'npx vitest run --reporter=verbose'
             }
         }
 
@@ -29,7 +31,8 @@ pipeline {
                     }
                     steps {
                         // Unit tests with Vitest
-                        sh 'npx vitest run --reporter=verbose'
+                        // sh 'npx vitest run --reporter=verbose'
+                        echo 'Mock test was successful!'
                     }
                 }
             }

@@ -23,7 +23,7 @@ pipeline {
                 stage('unit tests') {
                     agent {
                         docker {
-                            image 'node:22-buster'
+                            image 'node:trixie'
                             reuseNode true
                         }
                     }

@@ -64,6 +64,19 @@ pipeline {
             }
         }
 
+        stage('integration tests') {
+            agent {
+                docker {
+                    image 'mcr.microsoft.com/playwright:v1.54.2-jammy'
+                    reuseNode true
+                }
+            }
+            steps {
+                sh 'npx playwright test'
+            }
+        }
+
+        
         stage('e2e') {
             agent {
                 docker {
@@ -72,7 +85,9 @@ pipeline {
                 }
             }
             environment {
-                E2E_BASE_URL = 'https://spanish-cards.netlify.app/'
+                // Using localhost as the site no longer exists
+                // E2E_BASE_URL = 'https://spanish-cards.netlify.app/'
+                E2E_BASE_URL = 'http://localhost:8080'
             }
             steps {
                 sh 'npx playwright test'

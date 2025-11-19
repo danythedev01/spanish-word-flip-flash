@@ -23,8 +23,7 @@ pipeline {
                 stage('unit tests') {
                     agent {
                         docker {
-                            // image 'node:22-alpine'
-                            iname 'node:22-buster' // Using a Debian-based image for better compatibility
+                            iname 'node:22-buster'
                             reuseNode true
                         }
                     }

@@ -23,7 +23,7 @@ pipeline {
                 stage('unit tests') {
                     agent {
                         docker {
-                            iname 'node:22-buster'
+                            image 'node:22-buster'
                             reuseNode true
                         }
                     }

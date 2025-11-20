@@ -1,0 +1,49 @@
+stages:
+  - build
+  - test
+  - deploy
+  - e2e
+
+build:
+  stage: build
+  image: node:22-alpine
+  script:
+    - npm ci
+    - npm run build
+
+test_unit:
+  stage: test
+  image: node:22-alpine
+  script:
+    - npm ci
+    - npx vitest run --reporter=verbose
+
+test_integration:
+  stage: test
+  image: mcr.microsoft.com/playwright:v1.54.2-jammy
+  script:
+    - npm ci
+    - npx playwright test
+  artifacts:
+    when: always
+    paths:
+      - reports-e2e/html/
+    reports:
+      junit:
+        - reports-e2e/junit.xml
+
+deploy:
+  stage: deploy
+  image: alpine
+  script:
+    - echo 'Mock deployment was successful!'
+
+e2e:
+  stage: e2e
+  image: mcr.microsoft.com/playwright:v1.54.2-jammy
+  variables:
+    # Note that the website no longer exist so consider to point to local host to temporary fix this issue.
+    E2E_BASE_URL: https://spanish-cards.netlify.app/
+  script:
+    - npm ci
+    - npx playwright test
